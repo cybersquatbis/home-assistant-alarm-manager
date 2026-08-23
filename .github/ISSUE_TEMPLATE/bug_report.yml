@@ -1,0 +1,27 @@
+name: Bug report
+description: Signaler un problème Alarme Manager Community
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: input
+    id: ha_version
+    attributes:
+      label: Version Home Assistant
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version Alarme Manager
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Problème observé
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs nettoyés des informations sensibles

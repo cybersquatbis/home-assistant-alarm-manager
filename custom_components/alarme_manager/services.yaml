@@ -1,0 +1,59 @@
+set_mode:
+  name: Changer le mode
+  description: Passe Alarme Manager en OBSERVATION ou en ACTIF. Le mode ACTIF exige confirm=true.
+  fields:
+    mode:
+      required: true
+      selector:
+        select:
+          options:
+            - observation
+            - active
+    confirm:
+      required: false
+      default: false
+      selector:
+        boolean:
+
+simulate_incident:
+  name: Simuler un incident
+  description: Ajoute un incident de test dans l'historique sans commander de sortie physique.
+  fields:
+    note:
+      required: false
+      selector:
+        text:
+
+clear_history:
+  name: Effacer l'historique
+  description: Efface l'historique local des incidents Alarme Manager.
+
+
+test_output:
+  name: Tester une sortie
+  description: Test manuel court d'une lumière ou d'une sirène. confirm=true est obligatoire et la durée est limitée à 10 secondes.
+  fields:
+    kind:
+      required: true
+      selector:
+        select:
+          options:
+            - light
+            - siren
+    entity_id:
+      required: true
+      selector:
+        entity:
+    duration:
+      required: false
+      default: 3
+      selector:
+        number:
+          min: 1
+          max: 10
+          step: 1
+          unit_of_measurement: s
+    confirm:
+      required: true
+      selector:
+        boolean:

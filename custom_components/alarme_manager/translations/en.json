@@ -1,0 +1,48 @@
+{
+  "title": "Alarm Manager Community",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Configure Alarm Manager",
+        "description": "Select the entities to supervise. The engine always starts in OBSERVATION mode.",
+        "data": {
+          "name": "Installation name",
+          "alarm_entity": "Alarm panel / Alarmo (optional)",
+          "openings": "Openings",
+          "motions": "Motion detectors",
+          "cameras": "Cameras",
+          "lights": "Deterrence lights",
+          "siren": "Siren",
+          "siren_duration": "Maximum siren duration (s)",
+          "critical_entities": "Critical / tamper entities",
+          "rf_entities": "RF / jamming entities",
+          "rain_entity": "Rain entity (future opening protection)"
+        }
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "Only one Alarm Manager instance is allowed."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Edit supervision",
+        "description": "Changes reload the integration. OBSERVATION mode is not changed.",
+        "data": {
+          "name": "Installation name",
+          "alarm_entity": "Alarm panel / Alarmo (optional)",
+          "openings": "Openings",
+          "motions": "Motion detectors",
+          "cameras": "Cameras",
+          "lights": "Deterrence lights",
+          "siren": "Siren",
+          "siren_duration": "Maximum siren duration (s)",
+          "critical_entities": "Critical / tamper entities",
+          "rf_entities": "RF / jamming entities",
+          "rain_entity": "Rain entity"
+        }
+      }
+    }
+  }
+}

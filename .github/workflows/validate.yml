@@ -1,0 +1,25 @@
+name: Validate Community integration
+on: [push, pull_request]
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Python syntax
+        run: python -m compileall -q custom_components/alarme_manager
+      - name: JSON syntax
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          for path in Path('.').rglob('*.json'):
+              json.loads(path.read_text(encoding='utf-8'))
+          PY
+      - name: JavaScript syntax
+        run: node --check custom_components/alarme_manager/frontend/alarme-manager-panel.js
+      - name: Community privacy scan
+        run: |
+          if grep -R -n -E '(mobile_app_[A-Za-z0-9_-]+|person\.[A-Za-z0-9_-]+|device_tracker\.[A-Za-z0-9_-]+)' custom_components docs README.md; then exit 1; fi
