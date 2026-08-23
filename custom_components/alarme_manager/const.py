@@ -6,7 +6,7 @@ from typing import Final
 
 DOMAIN: Final = "alarme_manager"
 NAME: Final = "Alarme Manager Community"
-VERSION: Final = "0.1.0-beta.1"
+VERSION: Final = "0.2.0-beta.1"
 
 PANEL_URL: Final = "alarme-manager"
 STATIC_URL: Final = "/alarme_manager_static"
@@ -18,6 +18,7 @@ CONF_NAME: Final = "name"
 CONF_ALARM_ENTITY: Final = "alarm_entity"
 CONF_OPENINGS: Final = "openings"
 CONF_MOTIONS: Final = "motions"
+CONF_SMOKE_ENTITIES: Final = "smoke_entities"
 CONF_CAMERAS: Final = "cameras"
 CONF_LIGHTS: Final = "lights"
 CONF_SIREN: Final = "siren"
