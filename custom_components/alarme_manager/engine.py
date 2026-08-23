@@ -2,7 +2,6 @@
 from __future__ import annotations
 from datetime import datetime
 from pathlib import Path
-from typing import Any
 from homeassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN
 from homeassistant.helpers.dispatcher import async_dispatcher_send
 from homeassistant.helpers.event import async_call_later, async_track_state_change_event
@@ -30,7 +29,7 @@ class AlarmManagerEngine:
         if self._remove: self._remove(); self._remove=None
     def all_configured_entities(self):
         c=self.config; out=set()
-        for k in (CONF_OPENINGS,CONF_MOTIONS,CONF_CAMERAS,CONF_LIGHTS,CONF_CRITICAL_ENTITIES,CONF_RF_ENTITIES): out.update(x for x in (c.get(k) or []) if isinstance(x,str))
+        for k in (CONF_OPENINGS,CONF_MOTIONS,CONF_SMOKE_ENTITIES,CONF_CAMERAS,CONF_LIGHTS,CONF_CRITICAL_ENTITIES,CONF_RF_ENTITIES): out.update(x for x in (c.get(k) or []) if isinstance(x,str))
         for k in (CONF_ALARM_ENTITY,CONF_SIREN):
             if isinstance(c.get(k),str) and c[k]: out.add(c[k])
         return out
@@ -38,6 +37,8 @@ class AlarmManagerEngine:
         eid=event.data.get("entity_id"); new=event.data.get("new_state"); old=event.data.get("old_state")
         if eid==self.config.get(CONF_ALARM_ENTITY) and new and new.state=="triggered" and (not old or old.state!="triggered"):
             await self.async_record_incident("alarm",eid); await self._reactions()
+        if eid in (self.config.get(CONF_SMOKE_ENTITIES) or []) and new and new.state.lower() in ACTIVE and (not old or old.state.lower() not in ACTIVE):
+            await self.async_record_incident("smoke",eid)
         async_dispatcher_send(self.hass,SIGNAL_UPDATE)
     def active_entities(self,key):
         return [eid for eid in (self.config.get(key) or []) if (self.hass.states.get(eid) and self.hass.states[eid].state.lower() in ACTIVE)]
@@ -51,7 +52,7 @@ class AlarmManagerEngine:
         return {"score":score,"supervised":ids,"unavailable":unavailable,"rf_alerts":rf,"healthy":not unavailable and not rf}
     async def async_set_observation(self,enabled): await self.store.async_update({"observation":bool(enabled)}); async_dispatcher_send(self.hass,SIGNAL_UPDATE)
     async def async_record_incident(self,kind,trigger_entity=None,note=None):
-        i={"time":datetime.now().astimezone().isoformat(),"kind":kind,"trigger_entity":trigger_entity,"note":note,"observation":self.observation,"alarm_state":self.alarm_state,"openings":self.active_entities(CONF_OPENINGS),"motions":self.active_entities(CONF_MOTIONS),"rf_alerts":self.health()["rf_alerts"],"snapshots":[]}; await self.store.async_add_incident(i); async_dispatcher_send(self.hass,SIGNAL_UPDATE); return i
+        i={"time":datetime.now().astimezone().isoformat(),"kind":kind,"trigger_entity":trigger_entity,"note":note,"observation":self.observation,"alarm_state":self.alarm_state,"openings":self.active_entities(CONF_OPENINGS),"motions":self.active_entities(CONF_MOTIONS),"smoke":self.active_entities(CONF_SMOKE_ENTITIES),"rf_alerts":self.health()["rf_alerts"],"snapshots":[]}; await self.store.async_add_incident(i); async_dispatcher_send(self.hass,SIGNAL_UPDATE); return i
     async def _reactions(self):
         if self.observation or self._reacting:return
         self._reacting=True
@@ -59,7 +60,7 @@ class AlarmManagerEngine:
             r=self.store.data.get("rules",{})
             if r.get("capture_snapshots"): await self._snapshots()
             if r.get("notify_on_incident"): await self._notify()
-            if r.get("lights_on_alarm") and self.config.get(CONF_LIGHTS): await self.hass.services.async_call("light","turn_on",{"entity_id":self.config[CONF_LIGHTS]},blocking=False)
+            if r.get("lights_on_alarm") and self.config.get(CONF_LIGHTS): await self.hass.services.async_call("homeassistant","turn_on",{"entity_id":self.config[CONF_LIGHTS]},blocking=False)
             if r.get("siren_on_alarm") and self.config.get(CONF_SIREN): await self._siren()
         finally:self._reacting=False
     async def _siren(self):
