@@ -2,7 +2,7 @@
 
 **Alarme Manager Community** est une intégration personnalisée pour **Home Assistant** qui ajoute une couche de supervision et d'orchestration autour d'une centrale existante, notamment **Alarmo**.
 
-> **Beta communautaire ouverte aux tests.** Le moteur démarre en **OBSERVATION**. Les réactions physiques automatiques sont désactivées par défaut et doivent être autorisées explicitement.
+> **Beta communautaire ouverte aux tests — 0.2.0-beta.1.** Le moteur démarre en **OBSERVATION**. Les réactions physiques automatiques sont désactivées par défaut et doivent être autorisées explicitement.
 
 ## 🚀 Télécharger et essayer maintenant
 
@@ -14,49 +14,41 @@
 4. Redémarrez Home Assistant.
 5. Ouvrez **Paramètres → Appareils et services → Ajouter une intégration**.
 6. Recherchez **Alarme Manager Community**.
-7. Configurez votre centrale / Alarmo et les équipements à superviser.
-8. Gardez le mode **OBSERVATION** pour les premiers essais.
+7. Sélectionnez Alarmo / votre centrale et les équipements à superviser.
+8. Gardez **OBSERVATION** pour les premiers essais.
 
-### Option 2 — téléchargement ZIP
+### Option 2 — ZIP
 
-Téléchargez directement la branche `main` :
+Téléchargement direct : **https://github.com/cybersquatbis/home-assistant-alarm-manager/archive/refs/heads/main.zip**
 
-**https://github.com/cybersquatbis/home-assistant-alarm-manager/archive/refs/heads/main.zip**
+Copiez ensuite `custom_components/alarme_manager/` vers `/config/custom_components/alarme_manager/`, puis redémarrez Home Assistant.
 
-Décompressez l'archive puis copiez :
+## ✨ Nouveautés 0.2
 
-`custom_components/alarme_manager/`
+- 💡 **état réel des lumières** sur le plan, même lorsque l'alarme est désarmée ;
+- 💡 prise en charge d'éclairages exposés comme `light.*` **ou** `switch.*` ;
+- 🟡 lumière ON = jaune + halo ;
+- 🚨 pendant une intrusion, les éléments déclencheurs clignotent en rouge et les éclairages de réaction restent identifiables ;
+- 🔥 **détecteurs de fumée individuels**, configurables depuis Home Assistant ;
+- 🔥 une détection fumée reste surveillée même si Alarmo est désarmé ;
+- 🔥 écran Incendie avec état individuel des détecteurs ;
+- ⚠️ entités indisponibles visibles en gris ;
+- 🧾 événements fumée ajoutés à l'historique.
 
-vers :
-
-`/config/custom_components/alarme_manager/`
-
-Redémarrez ensuite Home Assistant et ajoutez l'intégration depuis **Paramètres → Appareils et services**.
-
-### Tester sans risque
-
-Au premier démarrage :
-
-- laissez **OBSERVATION** activé ;
-- configurez d'abord la centrale et les capteurs ;
-- utilisez `alarme_manager.simulate_incident` pour tester le comportement sans sortie physique ;
-- testez séparément les lumières et la sirène avec confirmation explicite ;
-- n'activez le mode ACTIF qu'après validation de votre configuration.
-
-👉 **Les retours et rapports de bugs sont les bienvenus dans les Issues GitHub.** Merci d'indiquer la version Home Assistant, la version d'Alarme Manager et les logs utiles en retirant les informations sensibles.
+Aucune entité personnelle, aucun téléphone, aucune pièce privée et aucun plan d'installation réelle ne sont fournis dans la Community.
 
 ## Alarmo ou Alarme Manager ?
 
 **Alarmo reste la centrale** : armement, désarmement, modes, capteurs et déclenchement.
 
-**Alarme Manager est la couche de supervision** : plan maison, contexte d'incident, santé des équipements, RF, historique, notifications et orchestration protégée des caméras, lumières et sirène.
+**Alarme Manager est la couche de supervision** : plan maison, contexte d'incident, santé des équipements, fumée/incendie, RF, historique, notifications et orchestration protégée des caméras, lumières et sirène.
 
 Les deux sont complémentaires.
 
 ## Beta actuelle
 
 - panneau latéral Home Assistant et plan maison générique ;
-- ouvrants, mouvements, caméras, lumières, sirène, RF et équipements critiques configurables ;
+- ouvrants, mouvements, fumée, caméras, lumières, sirène, RF et équipements critiques configurables ;
 - OBSERVATION par défaut et passage ACTIF avec confirmation ;
 - historique local des 100 derniers incidents ;
 - score de protection et détection des entités indisponibles ;
@@ -64,19 +56,13 @@ Les deux sont complémentaires.
 - simulation d'incident sans sortie physique ;
 - tests manuels courts et confirmés ;
 - captures caméra, notifications, lumières et sirène optionnelles lors d'une alarme ;
-- profils `notify.*` stockables par le backend ;
-- garde interne contre deux traitements de réaction simultanés ;
-- sélection d'un capteur pluie prévue pour les futures règles ouvrants/Velux ;
-- traductions FR/EN de la configuration.
+- profils `notify.*` stockables par le backend.
 
-## Sécurité par défaut
+## Tester sans risque
 
-- OBSERVATION est la valeur initiale persistante ;
-- lumières et sirène automatiques sont désactivées par défaut ;
-- le passage en ACTIF exige `confirm: true` ;
-- les tests physiques exigent `confirm: true` et sont limités à 10 secondes ;
-- une simulation ne commande jamais de sortie ;
-- aucune entité, aucun téléphone et aucun plan personnel ne sont fournis.
+Commencez en **OBSERVATION**, vérifiez les états sur le plan, simulez un incident, puis testez séparément les sorties. N'activez les réactions réelles qu'après validation de votre installation.
+
+Les détecteurs de fumée sont supervisés visuellement indépendamment de l'état d'Alarmo. Cette beta ne remplace pas un dispositif incendie ou une alarme certifiés.
 
 ## Services
 
@@ -84,7 +70,7 @@ Les deux sont complémentaires.
 
 ## Limites connues
 
-Cette beta est une base Community fonctionnelle, pas un système d'alarme certifié. Restent à enrichir : corrélation avancée par zone, profils photo par téléphone, règles météo ouvrants/Velux, détection des doublons avec les automatisations externes et intégration RFPlayer dédiée.
+Restent à enrichir : placement/édition graphique avancés des repères, corrélation avancée par zone, profils photo par téléphone, règles météo ouvrants/Velux, détection des doublons avec les automatisations externes et intégration RFPlayer dédiée.
 
 ## Documentation
 
