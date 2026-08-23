@@ -2,7 +2,48 @@
 
 **Alarme Manager Community** est une intégration personnalisée pour **Home Assistant** qui ajoute une couche de supervision et d'orchestration autour d'une centrale existante, notamment **Alarmo**.
 
-> **Beta communautaire.** Le moteur démarre en **OBSERVATION**. Les réactions physiques automatiques sont désactivées par défaut et doivent être autorisées explicitement.
+> **Beta communautaire ouverte aux tests.** Le moteur démarre en **OBSERVATION**. Les réactions physiques automatiques sont désactivées par défaut et doivent être autorisées explicitement.
+
+## 🚀 Télécharger et essayer maintenant
+
+### Option 1 — HACS (recommandé)
+
+1. Ouvrez **HACS → Intégrations**.
+2. Ajoutez `https://github.com/cybersquatbis/home-assistant-alarm-manager` comme **dépôt personnalisé** de catégorie **Integration**.
+3. Recherchez **Alarme Manager Community** et installez-le.
+4. Redémarrez Home Assistant.
+5. Ouvrez **Paramètres → Appareils et services → Ajouter une intégration**.
+6. Recherchez **Alarme Manager Community**.
+7. Configurez votre centrale / Alarmo et les équipements à superviser.
+8. Gardez le mode **OBSERVATION** pour les premiers essais.
+
+### Option 2 — téléchargement ZIP
+
+Téléchargez directement la branche `main` :
+
+**https://github.com/cybersquatbis/home-assistant-alarm-manager/archive/refs/heads/main.zip**
+
+Décompressez l'archive puis copiez :
+
+`custom_components/alarme_manager/`
+
+vers :
+
+`/config/custom_components/alarme_manager/`
+
+Redémarrez ensuite Home Assistant et ajoutez l'intégration depuis **Paramètres → Appareils et services**.
+
+### Tester sans risque
+
+Au premier démarrage :
+
+- laissez **OBSERVATION** activé ;
+- configurez d'abord la centrale et les capteurs ;
+- utilisez `alarme_manager.simulate_incident` pour tester le comportement sans sortie physique ;
+- testez séparément les lumières et la sirène avec confirmation explicite ;
+- n'activez le mode ACTIF qu'après validation de votre configuration.
+
+👉 **Les retours et rapports de bugs sont les bienvenus dans les Issues GitHub.** Merci d'indiquer la version Home Assistant, la version d'Alarme Manager et les logs utiles en retirant les informations sensibles.
 
 ## Alarmo ou Alarme Manager ?
 
@@ -27,20 +68,6 @@ Les deux sont complémentaires.
 - garde interne contre deux traitements de réaction simultanés ;
 - sélection d'un capteur pluie prévue pour les futures règles ouvrants/Velux ;
 - traductions FR/EN de la configuration.
-
-## Installation manuelle
-
-1. Copiez `custom_components/alarme_manager/` dans `/config/custom_components/alarme_manager/`.
-2. Redémarrez Home Assistant.
-3. Ouvrez **Paramètres → Appareils et services → Ajouter une intégration**.
-4. Recherchez **Alarme Manager Community**.
-5. Sélectionnez votre centrale / Alarmo et les équipements à superviser.
-6. Ouvrez **Alarme Manager** dans la barre latérale.
-7. Restez en **OBSERVATION** tant que les tests ne sont pas terminés.
-
-## HACS
-
-Le dépôt contient `hacs.json`. Tant qu'il n'est pas référencé dans le catalogue HACS par défaut, ajoutez-le comme **dépôt personnalisé de type Integration**.
 
 ## Sécurité par défaut
 
