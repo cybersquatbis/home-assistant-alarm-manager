@@ -1,48 +1,5 @@
 {
   "title": "Alarme Manager Community",
-  "config": {
-    "step": {
-      "user": {
-        "title": "Configurer Alarme Manager",
-        "description": "Sélectionnez les entités à superviser. Le moteur démarre toujours en OBSERVATION.",
-        "data": {
-          "name": "Nom de l'installation",
-          "alarm_entity": "Centrale / Alarmo (facultatif)",
-          "openings": "Ouvrants",
-          "motions": "Détecteurs de mouvement",
-          "cameras": "Caméras",
-          "lights": "Éclairages de dissuasion",
-          "siren": "Sirène",
-          "siren_duration": "Durée maximale de la sirène (s)",
-          "critical_entities": "Équipements critiques / anti-sabotage",
-          "rf_entities": "Capteurs RF / anti-brouillage",
-          "rain_entity": "Capteur pluie (préparation protection ouvrants)"
-        }
-      }
-    },
-    "abort": {
-      "single_instance_allowed": "Une seule instance d'Alarme Manager est autorisée."
-    }
-  },
-  "options": {
-    "step": {
-      "init": {
-        "title": "Modifier la supervision",
-        "description": "Les changements rechargent l'intégration. Le mode OBSERVATION n'est pas modifié.",
-        "data": {
-          "name": "Nom de l'installation",
-          "alarm_entity": "Centrale / Alarmo (facultatif)",
-          "openings": "Ouvrants",
-          "motions": "Détecteurs de mouvement",
-          "cameras": "Caméras",
-          "lights": "Éclairages de dissuasion",
-          "siren": "Sirène",
-          "siren_duration": "Durée maximale de la sirène (s)",
-          "critical_entities": "Équipements critiques / anti-sabotage",
-          "rf_entities": "Capteurs RF / anti-brouillage",
-          "rain_entity": "Capteur pluie"
-        }
-      }
-    }
-  }
+  "config": {"step":{"user":{"title":"Configurer Alarme Manager","description":"Sélectionnez les entités à superviser. Le moteur démarre toujours en OBSERVATION.","data":{"name":"Nom de l'installation","alarm_entity":"Centrale / Alarmo (facultatif)","openings":"Ouvrants","motions":"Détecteurs de mouvement","smoke_entities":"Détecteurs de fumée","cameras":"Caméras","lights":"Éclairages (light ou switch)","siren":"Sirène","siren_duration":"Durée maximale de la sirène (s)","critical_entities":"Équipements critiques / anti-sabotage","rf_entities":"Capteurs RF / anti-brouillage","rain_entity":"Capteur pluie (préparation protection ouvrants)"}}},"abort":{"single_instance_allowed":"Une seule instance d'Alarme Manager est autorisée."}},
+  "options":{"step":{"init":{"title":"Modifier la supervision","description":"Les changements rechargent l'intégration. Le mode OBSERVATION n'est pas modifié.","data":{"name":"Nom de l'installation","alarm_entity":"Centrale / Alarmo (facultatif)","openings":"Ouvrants","motions":"Détecteurs de mouvement","smoke_entities":"Détecteurs de fumée","cameras":"Caméras","lights":"Éclairages (light ou switch)","siren":"Sirène","siren_duration":"Durée maximale de la sirène (s)","critical_entities":"Équipements critiques / anti-sabotage","rf_entities":"Capteurs RF / anti-brouillage","rain_entity":"Capteur pluie"}}}}
 }
