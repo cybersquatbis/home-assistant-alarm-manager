@@ -29,8 +29,8 @@ class AlarmManagerEngine:
         if self._remove: self._remove(); self._remove=None
     def all_configured_entities(self):
         c=self.config; out=set()
-        for k in (CONF_OPENINGS,CONF_MOTIONS,CONF_SMOKE_ENTITIES,CONF_CAMERAS,CONF_LIGHTS,CONF_CRITICAL_ENTITIES,CONF_RF_ENTITIES): out.update(x for x in (c.get(k) or []) if isinstance(x,str))
-        for k in (CONF_ALARM_ENTITY,CONF_SIREN):
+        for k in (CONF_OPENINGS,CONF_MOTIONS,CONF_SMOKE_ENTITIES,CONF_CAMERAS,CONF_LIGHTS,CONF_AUX_DEVICES,CONF_CRITICAL_ENTITIES,CONF_RF_ENTITIES): out.update(x for x in (c.get(k) or []) if isinstance(x,str))
+        for k in (CONF_ALARM_ENTITY,CONF_SIREN,CONF_RAIN_ENTITY):
             if isinstance(c.get(k),str) and c[k]: out.add(c[k])
         return out
     async def _changed(self,event):

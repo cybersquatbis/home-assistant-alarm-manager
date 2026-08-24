@@ -2,7 +2,7 @@
 
 **Alarme Manager Community** est une intégration personnalisée pour **Home Assistant** qui ajoute une couche de supervision et d'orchestration autour d'une centrale existante, notamment **Alarmo**.
 
-> **Beta communautaire ouverte aux tests — 0.2.0-beta.1.** Le moteur démarre en **OBSERVATION**. Les réactions physiques automatiques sont désactivées par défaut et doivent être autorisées explicitement.
+> **Beta communautaire ouverte aux tests — 0.3.0-beta.1.** Le moteur démarre en **OBSERVATION**. Les réactions physiques automatiques sont désactivées par défaut et doivent être autorisées explicitement.
 
 ## 🚀 Télécharger et essayer maintenant
 
@@ -23,17 +23,25 @@ Téléchargement direct : **https://github.com/cybersquatbis/home-assistant-alar
 
 Copiez ensuite `custom_components/alarme_manager/` vers `/config/custom_components/alarme_manager/`, puis redémarrez Home Assistant.
 
-## ✨ Nouveautés 0.2
+## ✨ Nouveautés 0.3
 
-- 💡 **état réel des lumières** sur le plan, même lorsque l'alarme est désarmée ;
-- 💡 prise en charge d'éclairages exposés comme `light.*` **ou** `switch.*` ;
+- 🖥️ **nouveau tableau de supervision sombre et premium**, dérivé des retours terrain de la version privée mais entièrement générique ;
+- 🗺️ **nouveau plan maison blueprint générique** fourni par défaut ;
+- ✏️ **Paramètres plan** : déplacement des repères directement à la souris, modification du nom, du type et des coordonnées X/Y ;
+- 🖼️ possibilité d'utiliser sa propre image de plan via son URL Home Assistant ;
+- 💾 positions et configuration du plan enregistrées localement dans Home Assistant ;
+- 🔎 **Plan Maxi** plein écran, avec sortie par bouton ou touche `Esc` ;
+- 🎚️ filtres du plan pour ouvrants, mouvements, caméras, lumières, fumée, équipements techniques, sirène et RF ;
+- 🟢 états normaux sobres et lisibles ;
+- ⚠️ entités indisponibles affichées en **ambre**, pour ne pas les confondre avec une alarme ;
+- 🔴 rouge réservé aux vraies alertes intrusion / incendie ;
+- 💡 éclairages `light.*` ou `switch.*` visibles en permanence avec état réel ;
 - 🟡 lumière ON = jaune + halo ;
-- 🚨 pendant une intrusion, les éléments déclencheurs clignotent en rouge et les éclairages de réaction restent identifiables ;
-- 🔥 **détecteurs de fumée individuels**, configurables depuis Home Assistant ;
-- 🔥 une détection fumée reste surveillée même si Alarmo est désarmé ;
-- 🔥 écran Incendie avec état individuel des détecteurs ;
-- ⚠️ entités indisponibles visibles en gris ;
-- 🧾 événements fumée ajoutés à l'historique.
+- 🔥 détecteurs de fumée individuels supervisés indépendamment de l'état d'Alarmo ;
+- 🔌 catégorie **Équipements auxiliaires** pour chauffe-eau, moteur, prise pilotée ou autre équipement à surveiller ;
+- ♨️ équipements auxiliaires actifs distingués visuellement en orange ;
+- 📊 liste dédiée des équipements indisponibles et accès au détail de l'entité ;
+- 🧾 historique local des incidents.
 
 Aucune entité personnelle, aucun téléphone, aucune pièce privée et aucun plan d'installation réelle ne sont fournis dans la Community.
 
@@ -48,7 +56,9 @@ Les deux sont complémentaires.
 ## Beta actuelle
 
 - panneau latéral Home Assistant et plan maison générique ;
-- ouvrants, mouvements, fumée, caméras, lumières, sirène, RF et équipements critiques configurables ;
+- éditeur graphique des repères et image de plan personnalisable ;
+- mode Plan Maxi et filtres d'affichage ;
+- ouvrants, mouvements, fumée, caméras, lumières, équipements auxiliaires, sirène, RF et équipements critiques configurables ;
 - OBSERVATION par défaut et passage ACTIF avec confirmation ;
 - historique local des 100 derniers incidents ;
 - score de protection et détection des entités indisponibles ;
@@ -57,6 +67,31 @@ Les deux sont complémentaires.
 - tests manuels courts et confirmés ;
 - captures caméra, notifications, lumières et sirène optionnelles lors d'une alarme ;
 - profils `notify.*` stockables par le backend.
+
+## Équipements auxiliaires
+
+La catégorie **Équipements auxiliaires** permet d'ajouter des entités qui ne sont pas directement des capteurs d'alarme : chauffe-eau, moteur, prise pilotée, équipement technique, etc.
+
+Le panneau affiche leur état réel :
+
+- **OFF / repos** : discret ;
+- **ON / actif** : orange ;
+- **unavailable / unknown** : ambre avec état de défaut.
+
+Ces équipements ne déclenchent pas une intrusion par eux-mêmes. Ils sont supervisés visuellement et participent au diagnostic de disponibilité.
+
+## Personnaliser le plan
+
+Dans le panneau Alarme Manager, ouvrez **Paramètres plan**. Vous pouvez alors :
+
+- déplacer les repères directement sur le plan ;
+- ajuster précisément X/Y ;
+- renommer un repère ;
+- changer son type visuel ;
+- remplacer le plan générique par votre propre image ;
+- enregistrer le résultat dans le stockage local de l'intégration.
+
+Les nouvelles entités configurées sont ajoutées automatiquement au plan et peuvent ensuite être repositionnées.
 
 ## Tester sans risque
 
@@ -70,7 +105,7 @@ Les détecteurs de fumée sont supervisés visuellement indépendamment de l'ét
 
 ## Limites connues
 
-Restent à enrichir : placement/édition graphique avancés des repères, corrélation avancée par zone, profils photo par téléphone, règles météo ouvrants/Velux, détection des doublons avec les automatisations externes et intégration RFPlayer dédiée.
+Restent à enrichir : corrélation avancée par zone, profils photo par téléphone, règles météo ouvrants/Velux, détection des doublons avec les automatisations externes et intégration RFPlayer dédiée.
 
 ## Documentation
 

@@ -13,6 +13,7 @@ from homeassistant.helpers import selector
 
 from .const import (
     CONF_ALARM_ENTITY,
+    CONF_AUX_DEVICES,
     CONF_CAMERAS,
     CONF_CRITICAL_ENTITIES,
     CONF_LIGHTS,
@@ -47,6 +48,7 @@ def _schema(defaults: dict[str, Any]) -> vol.Schema:
             vol.Optional(CONF_SMOKE_ENTITIES, default=defaults.get(CONF_SMOKE_ENTITIES, [])): _entity_selector("binary_sensor", multiple=True),
             vol.Optional(CONF_CAMERAS, default=defaults.get(CONF_CAMERAS, [])): _entity_selector("camera", multiple=True),
             vol.Optional(CONF_LIGHTS, default=defaults.get(CONF_LIGHTS, [])): _entity_selector(multiple=True),
+            vol.Optional(CONF_AUX_DEVICES, default=defaults.get(CONF_AUX_DEVICES, [])): _entity_selector(multiple=True),
             vol.Optional(CONF_SIREN, default=defaults.get(CONF_SIREN)): _entity_selector(),
             vol.Optional(CONF_SIREN_DURATION, default=defaults.get(CONF_SIREN_DURATION, DEFAULT_SIREN_DURATION)): selector.NumberSelector(
                 selector.NumberSelectorConfig(min=1, max=300, step=1, mode=selector.NumberSelectorMode.BOX)
