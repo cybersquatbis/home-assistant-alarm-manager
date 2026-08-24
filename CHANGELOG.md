@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.3.0-beta.1 — 2026-08-24
+
+Nouvelle beta Community préparée à partir des retours de la version privée, sans reprendre aucune donnée personnelle :
+
+- nouveau tableau de supervision sombre et plus lisible ;
+- états indisponibles affichés en ambre au lieu du rouge/gris afin de distinguer clairement panne et alarme ;
+- rouge réservé aux vraies alertes intrusion / incendie ;
+- affichage amélioré des lumières allumées et des réactions d'alarme ;
+- nouvelle catégorie générique `aux_devices` pour chauffe-eau, moteur, prise pilotée et autres équipements techniques ;
+- état ON des équipements auxiliaires affiché en orange ;
+- équipements auxiliaires inclus dans la supervision de disponibilité ;
+- capteur pluie inclus dans le diagnostic de disponibilité lorsqu'il est configuré ;
+- panneau dédié aux équipements indisponibles ;
+- traductions FR/EN et documentation mises à jour.
+
 ## 0.2.0-beta.1 — 2026-08-23
 
 Nouvelle beta Community issue des retours de test de la branche privée, sans aucune entité ni donnée personnelle :
