@@ -25,17 +25,23 @@ Copiez ensuite `custom_components/alarme_manager/` vers `/config/custom_componen
 
 ## ✨ Nouveautés 0.3
 
-- 🖥️ **nouveau tableau de supervision sombre** inspiré du retour terrain de la version privée, mais entièrement générique ;
-- 🟢 états normaux plus sobres et lisibles ;
+- 🖥️ **nouveau tableau de supervision sombre et premium**, dérivé des retours terrain de la version privée mais entièrement générique ;
+- 🗺️ **nouveau plan maison blueprint générique** fourni par défaut ;
+- ✏️ **Paramètres plan** : déplacement des repères directement à la souris, modification du nom, du type et des coordonnées X/Y ;
+- 🖼️ possibilité d'utiliser sa propre image de plan via son URL Home Assistant ;
+- 💾 positions et configuration du plan enregistrées localement dans Home Assistant ;
+- 🔎 **Plan Maxi** plein écran, avec sortie par bouton ou touche `Esc` ;
+- 🎚️ filtres du plan pour ouvrants, mouvements, caméras, lumières, fumée, équipements techniques, sirène et RF ;
+- 🟢 états normaux sobres et lisibles ;
 - ⚠️ entités indisponibles affichées en **ambre**, pour ne pas les confondre avec une alarme ;
 - 🔴 rouge réservé aux vraies alertes intrusion / incendie ;
 - 💡 éclairages `light.*` ou `switch.*` visibles en permanence avec état réel ;
 - 🟡 lumière ON = jaune + halo ;
 - 🔥 détecteurs de fumée individuels supervisés indépendamment de l'état d'Alarmo ;
-- 🔌 nouvelle catégorie **Équipements auxiliaires** pour chauffe-eau, moteur, prise pilotée ou autre équipement à surveiller ;
-- ♨️ les équipements auxiliaires actifs sont distingués visuellement en orange ;
-- 📊 liste dédiée des équipements indisponibles dans le panneau ;
-- 🧾 historique des incidents conservé localement dans Home Assistant.
+- 🔌 catégorie **Équipements auxiliaires** pour chauffe-eau, moteur, prise pilotée ou autre équipement à surveiller ;
+- ♨️ équipements auxiliaires actifs distingués visuellement en orange ;
+- 📊 liste dédiée des équipements indisponibles et accès au détail de l'entité ;
+- 🧾 historique local des incidents.
 
 Aucune entité personnelle, aucun téléphone, aucune pièce privée et aucun plan d'installation réelle ne sont fournis dans la Community.
 
@@ -50,6 +56,8 @@ Les deux sont complémentaires.
 ## Beta actuelle
 
 - panneau latéral Home Assistant et plan maison générique ;
+- éditeur graphique des repères et image de plan personnalisable ;
+- mode Plan Maxi et filtres d'affichage ;
 - ouvrants, mouvements, fumée, caméras, lumières, équipements auxiliaires, sirène, RF et équipements critiques configurables ;
 - OBSERVATION par défaut et passage ACTIF avec confirmation ;
 - historique local des 100 derniers incidents ;
@@ -72,6 +80,19 @@ Le panneau affiche leur état réel :
 
 Ces équipements ne déclenchent pas une intrusion par eux-mêmes. Ils sont supervisés visuellement et participent au diagnostic de disponibilité.
 
+## Personnaliser le plan
+
+Dans le panneau Alarme Manager, ouvrez **Paramètres plan**. Vous pouvez alors :
+
+- déplacer les repères directement sur le plan ;
+- ajuster précisément X/Y ;
+- renommer un repère ;
+- changer son type visuel ;
+- remplacer le plan générique par votre propre image ;
+- enregistrer le résultat dans le stockage local de l'intégration.
+
+Les nouvelles entités configurées sont ajoutées automatiquement au plan et peuvent ensuite être repositionnées.
+
 ## Tester sans risque
 
 Commencez en **OBSERVATION**, vérifiez les états sur le plan, simulez un incident, puis testez séparément les sorties. N'activez les réactions réelles qu'après validation de votre installation.
@@ -84,7 +105,7 @@ Les détecteurs de fumée sont supervisés visuellement indépendamment de l'ét
 
 ## Limites connues
 
-Restent à enrichir : placement/édition graphique avancés des repères, corrélation avancée par zone, profils photo par téléphone, règles météo ouvrants/Velux, détection des doublons avec les automatisations externes et intégration RFPlayer dédiée.
+Restent à enrichir : corrélation avancée par zone, profils photo par téléphone, règles météo ouvrants/Velux, détection des doublons avec les automatisations externes et intégration RFPlayer dédiée.
 
 ## Documentation
 
