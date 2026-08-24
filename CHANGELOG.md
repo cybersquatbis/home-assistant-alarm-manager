@@ -4,8 +4,14 @@
 
 Nouvelle beta Community préparée à partir des retours de la version privée, sans reprendre aucune donnée personnelle :
 
-- nouveau tableau de supervision sombre et plus lisible ;
-- états indisponibles affichés en ambre au lieu du rouge/gris afin de distinguer clairement panne et alarme ;
+- nouveau tableau de supervision sombre et premium ;
+- nouveau plan maison blueprint entièrement générique ;
+- éditeur graphique **Paramètres plan** avec déplacement direct des repères ;
+- modification du nom, du type et des coordonnées X/Y des repères ;
+- image de plan personnalisable et configuration persistée localement ;
+- mode **Plan Maxi** avec sortie par bouton ou touche `Esc` ;
+- filtres d'affichage pour les principales familles d'équipements ;
+- états indisponibles affichés en ambre afin de distinguer panne et alarme ;
 - rouge réservé aux vraies alertes intrusion / incendie ;
 - affichage amélioré des lumières allumées et des réactions d'alarme ;
 - nouvelle catégorie générique `aux_devices` pour chauffe-eau, moteur, prise pilotée et autres équipements techniques ;
