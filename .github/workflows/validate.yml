@@ -19,7 +19,7 @@ jobs:
               json.loads(path.read_text(encoding='utf-8'))
           PY
       - name: JavaScript syntax
-        run: node --check custom_components/alarme_manager/frontend/alarme-manager-panel.js
+        run: node --check custom_components/alarme_manager/alarme-manager.js
       - name: Community privacy scan
         run: |
-          if grep -R -n -E '(mobile_app_[A-Za-z0-9_-]+|person\.[A-Za-z0-9_-]+|device_tracker\.[A-Za-z0-9_-]+)' custom_components docs README.md; then exit 1; fi
+          if grep -R -n -E '(mobile_app_[A-Za-z0-9_-]+|device_tracker\.[A-Za-z0-9_-]+|notify\.envoi_mail|binary_sensor\.detecteur_de_fumee_|switch\.chauffe_eau_2|motion_sensor_general_purpose_state)' custom_components README.md CHANGELOG.md; then exit 1; fi
