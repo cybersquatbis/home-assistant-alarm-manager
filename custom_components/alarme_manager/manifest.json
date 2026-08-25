@@ -1,18 +1,15 @@
 {
   "domain": "alarme_manager",
   "name": "Alarme Manager Community",
-  "version": "0.3.0-beta.1",
-  "codeowners": [
-    "@cybersquatbis"
-  ],
+  "version": "0.4.0-beta.1",
+  "codeowners": ["@cybersquatbis"],
   "config_flow": true,
   "single_config_entry": true,
-  "dependencies": [
-    "frontend",
-    "http",
-    "panel_custom"
-  ],
+  "dependencies": ["frontend", "http", "panel_custom"],
+  "after_dependencies": ["alarmo", "camera", "mobile_app"],
   "documentation": "https://github.com/cybersquatbis/home-assistant-alarm-manager",
   "issue_tracker": "https://github.com/cybersquatbis/home-assistant-alarm-manager/issues",
-  "integration_type": "service"
+  "integration_type": "service",
+  "iot_class": "local_push",
+  "requirements": []
 }
