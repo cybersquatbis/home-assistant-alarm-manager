@@ -4,7 +4,7 @@ from copy import deepcopy
 from typing import Any
 from homeassistant.helpers.storage import Store
 from .const import MAX_INCIDENTS,STORAGE_KEY,STORAGE_VERSION
-DEFAULT_DATA:dict[str,Any]={"observation":True,"plan":{"image_url":"","markers":[],"entity_scales":{"global":100,"opening":100,"motion":100,"smoke":100,"camera":100,"light":100,"aux":100,"siren":100,"rf":100,"critical":100,"temperature":100},"trace_enabled":True,"trace_include_openings":True,"trace_reset_seconds":300},"rules":{"lights_on_alarm":False,"siren_on_alarm":False,"capture_snapshots":False,"notify_on_incident":False},"notification_profiles":[],"incidents":[],"trace":[]}
+DEFAULT_DATA:dict[str,Any]={"observation":True,"plan":{"image_url":"","markers":[],"entity_scales":{"global":100,"opening":100,"motion":100,"smoke":100,"camera":100,"light":100,"aux":100,"siren":100,"rf":100,"critical":100,"temperature":100},"trace_enabled":True,"trace_include_openings":True,"trace_reset_seconds":300},"rules":{"lights_on_alarm":False,"siren_on_alarm":False,"capture_snapshots":False,"notify_on_incident":False,"require_opening_before_reactions":True,"opening_confirmation_window":120},"notification_profiles":[],"incidents":[],"trace":[]}
 class AlarmManagerStore:
     def __init__(self,hass): self._store=Store(hass,STORAGE_VERSION,STORAGE_KEY);self.data=deepcopy(DEFAULT_DATA)
     async def async_load(self):
