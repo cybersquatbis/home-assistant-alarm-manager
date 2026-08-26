@@ -9,7 +9,8 @@ from homeassistant.core import callback
 from .const import *
 ACTIVE={"on","open","opening","detected","motion","problem","jammed","heat","heating","active","running","occupied"}
 class AlarmManagerEngine:
-    def __init__(self,hass,entry,store): self.hass=hass;self.entry=entry;self.store=store;self._remove=None;self._reacting=False
+    def __init__(self,hass,entry,store):
+        self.hass=hass;self.entry=entry;self.store=store;self._remove=None;self._reacting=False;self._last_opening_at=None;self._last_opening_entity=None
     @property
     def config(self): return {**self.entry.data,**self.entry.options}
     @property
@@ -35,8 +36,13 @@ class AlarmManagerEngine:
         eid=event.data.get("entity_id");new=event.data.get("new_state");old=event.data.get("old_state")
         if not new:return
         became=new.state.lower() in ACTIVE and(not old or old.state.lower()not in ACTIVE)
+        if became and eid in(self.config.get(CONF_OPENINGS)or[]):
+            self._last_opening_at=datetime.now().astimezone();self._last_opening_entity=eid
         if became and(eid in(self.config.get(CONF_MOTIONS)or[])or eid in(self.config.get(CONF_OPENINGS)or[])):await self._trace(eid,"motion"if eid in(self.config.get(CONF_MOTIONS)or[])else"opening")
-        if eid==self.config.get(CONF_ALARM_ENTITY)and new.state=="triggered"and(not old or old.state!="triggered"):await self.async_record_incident("alarm",eid);await self._reactions()
+        if eid==self.config.get(CONF_ALARM_ENTITY)and new.state=="triggered"and(not old or old.state!="triggered"):
+            confirmation=self.intrusion_confirmation();note="opening_confirmed" if confirmation["confirmed"] else "no_recent_opening"
+            await self.async_record_incident("alarm",eid,note=note)
+            await self._reactions(confirmation["confirmed"])
         if eid in(self.config.get(CONF_SMOKE_ENTITIES)or[])and became:await self.async_record_incident("smoke",eid)
         async_dispatcher_send(self.hass,SIGNAL_UPDATE)
     async def _trace(self,eid,kind):
@@ -50,17 +56,25 @@ class AlarmManagerEngine:
     def _friendly(self,eid):
         st=self.hass.states.get(eid);return(st.attributes.get("friendly_name")if st else None)or eid
     def active_entities(self,key):return[e for e in(self.config.get(key)or[])if(self.hass.states.get(e)and self.hass.states[e].state.lower()in ACTIVE)]
+    def intrusion_confirmation(self):
+        rules=self.store.data.get("rules",{});required=bool(rules.get("require_opening_before_reactions",True));window=max(10,min(int(rules.get("opening_confirmation_window",120)or 120),3600));openings=self.config.get(CONF_OPENINGS)or[]
+        if not required or not openings:return{"required":required,"confirmed":True,"window_seconds":window,"last_opening_entity":self._last_opening_entity,"last_opening_at":self._last_opening_at.isoformat() if self._last_opening_at else None}
+        if self.active_entities(CONF_OPENINGS):confirmed=True
+        elif self._last_opening_at:confirmed=(datetime.now().astimezone()-self._last_opening_at).total_seconds()<=window
+        else:confirmed=False
+        return{"required":required,"confirmed":confirmed,"window_seconds":window,"last_opening_entity":self._last_opening_entity,"last_opening_at":self._last_opening_at.isoformat() if self._last_opening_at else None}
     def health(self):
         ids=sorted(self.all_configured_entities());un=[e for e in ids if not self.hass.states.get(e)or self.hass.states[e].state in{STATE_UNAVAILABLE,STATE_UNKNOWN}];rf=[e for e in(self.config.get(CONF_RF_ENTITIES)or[])if(not self.hass.states.get(e)or self.hass.states[e].state in{STATE_UNAVAILABLE,STATE_UNKNOWN}or self.hass.states[e].state.lower()in ACTIVE)];return{"score":round(100*(len(ids)-len(un))/len(ids))if ids else 0,"supervised":ids,"unavailable":un,"rf_alerts":rf,"healthy":not un and not rf}
     async def async_set_observation(self,enabled):await self.store.async_update({"observation":bool(enabled)});async_dispatcher_send(self.hass,SIGNAL_UPDATE)
     async def async_clear_trace(self):await self.store.async_set_trace([]);async_dispatcher_send(self.hass,SIGNAL_UPDATE)
     async def async_record_incident(self,kind,trigger_entity=None,note=None):
         i={"time":datetime.now().astimezone().isoformat(),"kind":kind,"trigger_entity":trigger_entity,"note":note,"observation":self.observation,"alarm_state":self.alarm_state,"openings":self.active_entities(CONF_OPENINGS),"motions":self.active_entities(CONF_MOTIONS),"smoke":self.active_entities(CONF_SMOKE_ENTITIES),"snapshots":[]};await self.store.async_add_incident(i);async_dispatcher_send(self.hass,SIGNAL_UPDATE);return i
-    async def _reactions(self):
+    async def _reactions(self,intrusion_confirmed=True):
         if self.observation or self._reacting:return
+        r=self.store.data.get("rules",{})
+        if r.get("require_opening_before_reactions",True) and not intrusion_confirmed:return
         self._reacting=True
         try:
-            r=self.store.data.get("rules",{})
             if r.get("capture_snapshots"):await self._snapshots()
             if r.get("notify_on_incident"):await self._notify()
             if r.get("lights_on_alarm")and self.config.get(CONF_LIGHTS):await self.hass.services.async_call("homeassistant","turn_on",{"entity_id":self.config[CONF_LIGHTS]},blocking=False)

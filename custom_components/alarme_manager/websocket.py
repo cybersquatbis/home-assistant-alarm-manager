@@ -12,7 +12,7 @@ def _states(hass,ids):return{e:(hass.states[e].state if hass.states.get(e)else"u
 async def get_state(hass,connection,msg):
     r=_runtime(hass)
     if not r:connection.send_result(msg["id"],{"configured":False});return
-    e=r["engine"];s=r["store"];connection.send_result(msg["id"],{"configured":True,"observation":e.observation,"alarm_state":e.alarm_state,"incident_active":e.incident_active,"entities":e.config,"health":e.health(),"active_openings":e.active_entities(CONF_OPENINGS),"active_motions":e.active_entities(CONF_MOTIONS),"active_smoke":e.active_entities(CONF_SMOKE_ENTITIES),"temperature_states":_states(hass,e.config.get(CONF_TEMPERATURE_ENTITIES)),"data":s.data})
+    e=r["engine"];s=r["store"];connection.send_result(msg["id"],{"configured":True,"observation":e.observation,"alarm_state":e.alarm_state,"incident_active":e.incident_active,"intrusion_confirmation":e.intrusion_confirmation(),"entities":e.config,"health":e.health(),"active_openings":e.active_entities(CONF_OPENINGS),"active_motions":e.active_entities(CONF_MOTIONS),"active_smoke":e.active_entities(CONF_SMOKE_ENTITIES),"temperature_states":_states(hass,e.config.get(CONF_TEMPERATURE_ENTITIES)),"data":s.data})
 @websocket_api.websocket_command({vol.Required("type"):f"{DOMAIN}/save_panel_config",vol.Required("config"):dict})
 @websocket_api.require_admin
 @websocket_api.async_response
