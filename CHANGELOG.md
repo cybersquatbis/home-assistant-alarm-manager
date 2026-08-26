@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.0-beta.1 — 2026-08-26
+
+- ajout d'une confirmation anti-animal pour les réactions Alarme Manager ;
+- par défaut, une ouverture protégée doit être active ou avoir été détectée dans les 120 secondes précédentes ;
+- un PIR seul reste visible dans la trajectoire mais n'autorise pas les réactions Alarme Manager ;
+- état de confirmation exposé au frontend ;
+- aucune donnée privée ajoutée à la Community.
+
 ## 0.4.0-beta.1 — 2026-08-25
 
 Community alignée sur les fonctions récentes, sans données de l'installation privée :
