@@ -2,7 +2,7 @@
 from typing import Final
 DOMAIN: Final = "alarme_manager"
 NAME: Final = "Alarme Manager Community"
-VERSION: Final = "0.4.0-beta.1"
+VERSION: Final = "0.5.0-beta.1"
 PANEL_URL: Final = "alarme-manager"
 STATIC_URL: Final = "/alarme_manager_static"
 STORAGE_KEY: Final = "alarme_manager.storage"
