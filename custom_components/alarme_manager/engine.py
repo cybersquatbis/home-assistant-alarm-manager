@@ -55,7 +55,7 @@ class AlarmManagerEngine:
         marker=next((m for m in p.get("markers",[])if m.get("entity_id")==eid),{});trace.append({"entity_id":eid,"kind":kind,"label":marker.get("label")or self._friendly(eid),"x":marker.get("x",50),"y":marker.get("y",50),"time":now.isoformat()});del trace[:-MAX_TRACE_POINTS];await self.store.async_save()
     def _friendly(self,eid):
         st=self.hass.states.get(eid);return(st.attributes.get("friendly_name")if st else None)or eid
-    def active_entities(self,key):return[e for e in(self.config.get(key)or[])if(self.hass.states.get(e)and self.hass.states[e].state.lower()in ACTIVE)]
+    def active_entities(self,key):return[e for e in(self.config.get(key)or[])if(self.hass.states.get(e)and self.hass.states.get(e).state.lower()in ACTIVE)]
     def intrusion_confirmation(self):
         rules=self.store.data.get("rules",{});required=bool(rules.get("require_opening_before_reactions",True));window=max(10,min(int(rules.get("opening_confirmation_window",120)or 120),3600));openings=self.config.get(CONF_OPENINGS)or[]
         if not required or not openings:return{"required":required,"confirmed":True,"window_seconds":window,"last_opening_entity":self._last_opening_entity,"last_opening_at":self._last_opening_at.isoformat() if self._last_opening_at else None}
@@ -64,7 +64,7 @@ class AlarmManagerEngine:
         else:confirmed=False
         return{"required":required,"confirmed":confirmed,"window_seconds":window,"last_opening_entity":self._last_opening_entity,"last_opening_at":self._last_opening_at.isoformat() if self._last_opening_at else None}
     def health(self):
-        ids=sorted(self.all_configured_entities());un=[e for e in ids if not self.hass.states.get(e)or self.hass.states[e].state in{STATE_UNAVAILABLE,STATE_UNKNOWN}];rf=[e for e in(self.config.get(CONF_RF_ENTITIES)or[])if(not self.hass.states.get(e)or self.hass.states[e].state in{STATE_UNAVAILABLE,STATE_UNKNOWN}or self.hass.states[e].state.lower()in ACTIVE)];return{"score":round(100*(len(ids)-len(un))/len(ids))if ids else 0,"supervised":ids,"unavailable":un,"rf_alerts":rf,"healthy":not un and not rf}
+        ids=sorted(self.all_configured_entities());un=[e for e in ids if not self.hass.states.get(e)or self.hass.states.get(e).state in{STATE_UNAVAILABLE,STATE_UNKNOWN}];rf=[e for e in(self.config.get(CONF_RF_ENTITIES)or[])if(not self.hass.states.get(e)or self.hass.states.get(e).state in{STATE_UNAVAILABLE,STATE_UNKNOWN}or self.hass.states.get(e).state.lower()in ACTIVE)];return{"score":round(100*(len(ids)-len(un))/len(ids))if ids else 0,"supervised":ids,"unavailable":un,"rf_alerts":rf,"healthy":not un and not rf}
     async def async_set_observation(self,enabled):await self.store.async_update({"observation":bool(enabled)});async_dispatcher_send(self.hass,SIGNAL_UPDATE)
     async def async_clear_trace(self):await self.store.async_set_trace([]);async_dispatcher_send(self.hass,SIGNAL_UPDATE)
     async def async_record_incident(self,kind,trigger_entity=None,note=None):

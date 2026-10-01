@@ -6,7 +6,7 @@ from .const import *
 def _runtime(hass):
     for v in hass.data.get(DOMAIN,{}).values():
         if isinstance(v,dict)and"engine"in v:return v
-def _states(hass,ids):return{e:(hass.states[e].state if hass.states.get(e)else"unavailable")for e in(ids or[])}
+def _states(hass,ids):return{e:(hass.states.get(e).state if hass.states.get(e)else"unavailable")for e in(ids or[])}
 @websocket_api.websocket_command({vol.Required("type"):f"{DOMAIN}/get_state"})
 @websocket_api.async_response
 async def get_state(hass,connection,msg):
